@@ -1,0 +1,27 @@
+HashCode(Rápido, porém não é 100% confiável)
+
+Método que retorna um número inteiro, representando um código gerado
+a partir das informações definidas como critério de comparação do objeto.
+
+Se o hashCode de dois objetos for diferente, então os dois objetos são
+diferentes.
+
+Se o código de dois objetos for igual, muito provavelmente os objetos
+são iguais (pode haver colisão)
+
+--------------------------------------------------------------------------------------
+
+Equals(Lento, porém é 100% confiável)
+
+Método que compara se o objeto é igual a outro, retornando
+true ou false.
+Este método também leva em consideração as informações definidas como critério 
+de comparação do objeto.
+
+--------------------------------------------------------------------------------------
+
+Caso nós precisemos tentar encontrar um objeto em uma lista muito grande, podemos utilizar
+o HashCode como verificador inicial, e o equals para ter a certeza de que a comparação
+de igualdade é 100% confiável.
+
+Assim teremos mais desempenho.
