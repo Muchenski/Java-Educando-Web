@@ -1,0 +1,2 @@
+Statement -> só aceita código sql estático.
+PreparedStatement -> aceita código sql com parâmetros(?)
