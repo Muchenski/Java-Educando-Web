@@ -7,8 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import db.DB;
 import db.DbException;
@@ -35,14 +38,7 @@ public class SellerDaoJDBC implements SellerDao {
 
 	@Override
 	public void insert(Seller seller) {
-
-		try {
-
-			st = conn.prepareStatement("INSERT INTO seller()");
-
-		} catch (SQLException e) {
-			throw new DbException(e.getMessage());
-		}
+		// TODO Auto-generated method stub
 
 	}
 
@@ -78,7 +74,7 @@ public class SellerDaoJDBC implements SellerDao {
 			rs = st.executeQuery();
 			
 			if(rs.next()) {
-				return instantiateSeller();
+				return instantiateSeller(instantiateDepartment());
 			}
 			return null;
 			
@@ -94,6 +90,48 @@ public class SellerDaoJDBC implements SellerDao {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public List<Seller> findByDepartment(Department department) {
+		
+		nullCheck(department);
+		
+		try {
+			
+			List<Seller> sellers = new ArrayList<Seller>();
+			Map<Integer, Department> map = new HashMap<Integer, Department>();
+			
+			st = conn.prepareStatement(
+					"SELECT seller.*, department.name as depName " +
+					"FROM seller INNER JOIN department " +
+					"ON seller.departmentId = department.Id " +
+					"WHERE departmentId = ? " +
+					"ORDER BY name;"
+					);
+			
+			st.setInt(1, department.getId());
+			rs = st.executeQuery();
+			
+			Department dep;
+			while(rs.next()) {
+				
+				dep = map.get(rs.getInt("departmentId"));
+				
+				if(dep == null) {
+					dep = instantiateDepartment();
+					map.put(rs.getInt("departmentId"), dep);
+				}
+				
+				sellers.add(instantiateSeller(dep));
+			}
+			return sellers;
+			
+		} catch(SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeSettings(Arrays.asList(st, rs));
+		}
+	}
 
 	// Como este é apenas um método auxiliar, e o método que irá utilizá-lo
 	// já realiza o tratamento de uma possível SQLException,
@@ -105,7 +143,7 @@ public class SellerDaoJDBC implements SellerDao {
 	// Como este é apenas um método auxiliar, e o método que irá utilizá-lo
 	// já realiza o tratamento de uma possível SQLException,
 	// iremos propagar(throws) a possível exceção.
-	private Seller instantiateSeller() throws SQLException {
+	private Seller instantiateSeller(Department department) throws SQLException {
 
 		try {
 			
@@ -114,14 +152,14 @@ public class SellerDaoJDBC implements SellerDao {
 					rs.getString("email"),
 					sdf.parse(rs.getString("birthDate")), 
 					rs.getDouble("baseSalary"), 
-					instantiateDepartment());
+					department);
 			
 		} catch (ParseException e) {
 			throw new DbException(e.getMessage());
 		}
 	}
 	
-	/*
+
 	private void makeRollBack() {
 		try {
 			conn.rollback();
@@ -129,10 +167,11 @@ public class SellerDaoJDBC implements SellerDao {
 			throw new DbException(e.getMessage());
 		}
 	}
-	*/
+
 	private void nullCheck(Object object) {
 		if (object == null) {
 			throw new IllegalArgumentException("Argument cannot be null!");
 		}
 	}
+
 }

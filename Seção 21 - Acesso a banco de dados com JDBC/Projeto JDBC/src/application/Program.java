@@ -17,7 +17,7 @@ public class Program {
 
 	public static void main(String[] args) {
 
-		//departmentTest();
+		// departmentTest();
 		sellerTest();
 
 		sc.close();
@@ -26,7 +26,7 @@ public class Program {
 	public static void sellerTest() {
 
 		SellerDao sellerDao = DaoFactory.createSellerDao();
-		Department d = DaoFactory.createDepartmentDao().findById(2);
+		Department d = DaoFactory.createDepartmentDao().findById(1);
 		Seller s = null;
 
 		try {
@@ -37,6 +37,11 @@ public class Program {
 
 		// Testando o findById do Department:
 		System.out.println(sellerDao.findById(2));
+
+		sc.nextLine();
+
+		// Testando o findByDepartment:
+		sellerDao.findByDepartment(d).forEach(System.out::println);
 	}
 
 	public static void departmentTest() {
@@ -46,7 +51,8 @@ public class Program {
 
 		// Testando o insert do Department:
 		departmentDao.insert(d); // Done! id - 47 - Utilitarios - created!
-		System.out.println(d); // Department [id=47, name=Utilitarios] -> Agora o 'd' conhece seu id, em memória.
+		System.out.println(d); // Department [id=47, name=Utilitarios] -> Agora o 'd' conhece seu id, em
+								// memória.
 		// departmentDao.insert(null); -> Argument cannot be null!
 
 		sc.nextLine();
