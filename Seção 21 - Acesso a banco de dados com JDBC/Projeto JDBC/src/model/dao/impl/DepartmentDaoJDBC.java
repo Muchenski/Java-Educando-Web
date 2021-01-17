@@ -40,9 +40,7 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 
 			st = conn.prepareStatement("INSERT INTO department(name) VALUES(?);", Statement.RETURN_GENERATED_KEYS);
 
-			String name = department.getName();
-
-			st.setString(1, name);
+			st.setString(1, department.getName());
 			int rowsAffected = st.executeUpdate();
 
 			conn.commit();
@@ -55,7 +53,7 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 					// Em memória, o objeto ainda não sabe o próprio id
 					// por isso devemos setar ao inserir.
 					department.setId(id);
-					System.out.println("Done! id - " + id + " - " + name + " - created!");
+					System.out.println("CREATED - " + department);
 				}
 			} else {
 				throw new DbException("Unexpected error! No rows affected!");
@@ -79,17 +77,14 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 
 			st = conn.prepareStatement("UPDATE department SET name = ? WHERE id = ?;");
 
-			String name = department.getName();
-			int id = department.getId();
-
-			st.setString(1, name);
-			st.setInt(2, id);
+			st.setString(1, department.getName());
+			st.setInt(2, department.getId());
 			int rowsAffected = st.executeUpdate();
 
 			conn.commit();
 
 			if (rowsAffected > 0) {
-				System.out.println("Done! id - " + id + " - " + name + " - updated!");
+				System.out.println("UPDATED - " + department);
 			} else {
 				System.out.println("Update fail!");
 			}
@@ -118,7 +113,7 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 			conn.commit();
 
 			if (rowsAffected > 0) {
-				System.out.println("Done! id - " + id + " - deleted!");
+				System.out.println("DELETED - " + id);
 			} else {
 				System.out.println("Delete fail!");
 			}
@@ -195,7 +190,14 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 	}
 
 	private void nullCheck(Object object) {
-		if (object == null) {
+
+		if (object != null) {
+			if (object instanceof Department) {
+				if (((Department) object).getName() == null) {
+					throw new IllegalArgumentException("Invalid Department!");
+				}
+			}
+		} else {
 			throw new IllegalArgumentException("Argument cannot be null!");
 		}
 	}
