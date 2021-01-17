@@ -42,6 +42,11 @@ public class Program {
 
 		// Testando o findByDepartment:
 		sellerDao.findByDepartment(d).forEach(System.out::println);
+
+		sc.nextLine();
+
+		// Testando o findAll:
+		sellerDao.findAll().forEach(System.out::println);
 	}
 
 	public static void departmentTest() {
