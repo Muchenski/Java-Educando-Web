@@ -19,7 +19,7 @@ import model.entities.Seller;
 public class SellerDaoJDBC implements SellerDao {
 
 	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-	
+
 	private Connection conn = null;
 	private PreparedStatement st = null;
 	private ResultSet rs = null;
@@ -78,19 +78,11 @@ public class SellerDaoJDBC implements SellerDao {
 			rs = st.executeQuery();
 			
 			if(rs.next()) {
-				Department department = new Department(rs.getInt("departmentId"), rs.getString("depName"));
-				return new Seller(rs.getInt(1), 
-						rs.getString("name"), 
-						rs.getString("email"),  
-						sdf.parse(rs.getString("birthDate")), 
-						rs.getDouble("baseSalary"), 
-						department);
+				return instantiateSeller();
 			}
 			return null;
 			
 		} catch(SQLException e) {
-			throw new DbException(e.getMessage());
-		} catch(ParseException e) {
 			throw new DbException(e.getMessage());
 		} finally {
 			DB.closeSettings(Arrays.asList(st, rs));
@@ -103,6 +95,33 @@ public class SellerDaoJDBC implements SellerDao {
 		return null;
 	}
 
+	// Como este é apenas um método auxiliar, e o método que irá utilizá-lo
+	// já realiza o tratamento de uma possível SQLException,
+	// iremos propagar(throws) a possível exceção.
+	private Department instantiateDepartment() throws SQLException {
+		return new Department(rs.getInt("departmentId"), rs.getString("depName"));
+	}
+
+	// Como este é apenas um método auxiliar, e o método que irá utilizá-lo
+	// já realiza o tratamento de uma possível SQLException,
+	// iremos propagar(throws) a possível exceção.
+	private Seller instantiateSeller() throws SQLException {
+
+		try {
+			
+			return new Seller(rs.getInt(1), 
+					rs.getString("name"), 
+					rs.getString("email"),
+					sdf.parse(rs.getString("birthDate")), 
+					rs.getDouble("baseSalary"), 
+					instantiateDepartment());
+			
+		} catch (ParseException e) {
+			throw new DbException(e.getMessage());
+		}
+	}
+	
+	/*
 	private void makeRollBack() {
 		try {
 			conn.rollback();
@@ -110,7 +129,7 @@ public class SellerDaoJDBC implements SellerDao {
 			throw new DbException(e.getMessage());
 		}
 	}
-
+	*/
 	private void nullCheck(Object object) {
 		if (object == null) {
 			throw new IllegalArgumentException("Argument cannot be null!");
