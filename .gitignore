@@ -15,14 +15,14 @@ hs_err_pid*
 .settings/
 bin/
 tmp/
-.metadata
-.classpath
-.project
+*.metadata
+*.classpath
+*.project
 *.tmp
 *.bak
 *.swp
 *~.nib
 local.properties
-.loadpath
-.factorypath
+*.loadpath
+*.factorypath
 
