@@ -74,7 +74,7 @@ public class DepartmentFormController implements Initializable {
 		ValidationException exception = new ValidationException("Validation error");
 
 		if (textFieldName.getText() == null || textFieldName.getText().trim().equals("")) {
-			exception.addError("name", "Field can't be embty!");
+			exception.addError("name", "Field can't be empty!");
 		}
 
 		if (exception.getErrors().size() > 0) {
