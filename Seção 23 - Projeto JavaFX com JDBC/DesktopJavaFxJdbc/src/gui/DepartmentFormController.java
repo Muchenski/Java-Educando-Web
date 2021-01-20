@@ -3,7 +3,9 @@ package gui;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import db.DbException;
 import gui.listeners.DataChangeListener;
@@ -56,26 +58,29 @@ public class DepartmentFormController implements Initializable {
 		}
 
 		try {
-
-			ValidationException exception = new ValidationException("Validation error");
-
-			if (textFieldName.getText().trim().equals("") || textFieldName.getText() == null) {
-				exception.addError("name", "Field can't be embty!");
-			}
-
-			if (exception.getErrors().size() > 0) {
-				throw exception;
-			}
-
-			Department department = new Department(Utils.tryParseToInt(textFieldId.getText()), textFieldName.getText());
+			Department department = getFormData();
 			service.saveOrUpdate(department);
 			notifyDataChangeListeners();
-			Alerts.showAlert("Department Save", null, department.getName() + " CREATED", AlertType.CONFIRMATION);
+			Alerts.showAlert("Department Save", null, department.getName() + " SAVED!", AlertType.CONFIRMATION);
 			Utils.currentStage(event).close();
-
+		} catch (ValidationException e) {
+			setErrorMessages(e.getErrors());
 		} catch (DbException e) {
 			Alerts.showAlert("Error saving department", null, e.getMessage(), AlertType.ERROR);
 		}
+	}
+
+	private Department getFormData() {
+		ValidationException exception = new ValidationException("Validation error");
+
+		if (textFieldName.getText() == null || textFieldName.getText().trim().equals("")) {
+			exception.addError("name", "Field can't be embty!");
+		}
+
+		if (exception.getErrors().size() > 0) {
+			throw exception;
+		}
+		return new Department(Utils.tryParseToInt(textFieldId.getText()), textFieldName.getText());
 	}
 
 	private void notifyDataChangeListeners() {
@@ -110,5 +115,12 @@ public class DepartmentFormController implements Initializable {
 		}
 		textFieldId.setText(String.valueOf(department.getId()));
 		textFieldName.setText(department.getName());
+	}
+
+	private void setErrorMessages(Map<String, String> erros) {
+		Set<String> fields = erros.keySet();
+		if (fields.contains("name")) {
+			labelError.setText(erros.get("name"));
+		}
 	}
 }

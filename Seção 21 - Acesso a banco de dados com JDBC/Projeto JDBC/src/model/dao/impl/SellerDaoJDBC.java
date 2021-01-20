@@ -31,11 +31,6 @@ public class SellerDaoJDBC implements SellerDao {
 
 	public SellerDaoJDBC(Connection conn) {
 		this.conn = conn;
-		try {
-			this.conn.setAutoCommit(false);
-		} catch (SQLException e) {
-			throw new DbException(e.getMessage());
-		}
 	}
 
 	@Override

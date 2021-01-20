@@ -24,11 +24,6 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 
 	public DepartmentDaoJDBC(Connection conn) {
 		this.conn = conn;
-		try {
-			this.conn.setAutoCommit(false);
-		} catch (SQLException e) {
-			throw new DbException(e.getMessage());
-		}
 	}
 
 	@Override

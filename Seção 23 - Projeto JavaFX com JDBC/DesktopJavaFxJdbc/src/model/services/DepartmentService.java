@@ -24,4 +24,8 @@ public class DepartmentService {
 			departmentDao.insert(department);
 		}
 	}
+
+	public void deleteById(Integer id) {
+		departmentDao.deleteById(id);
+	}
 }
