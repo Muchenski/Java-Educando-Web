@@ -15,7 +15,7 @@ public class DB {
 	public static Connection getConnection() {
 		if (conn == null) {
 			try {
-				return DriverManager.getConnection(loadProperties().getProperty("dburl"), loadProperties());
+				conn = DriverManager.getConnection(loadProperties().getProperty("dburl"), loadProperties());
 			} catch (SQLException e) {
 				throw new DbException(e.getMessage());
 			}

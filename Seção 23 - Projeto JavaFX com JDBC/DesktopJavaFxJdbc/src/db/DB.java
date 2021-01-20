@@ -16,6 +16,7 @@ public class DB {
 		if (conn == null) {
 			try {
 				conn = DriverManager.getConnection(loadProperties().getProperty("dburl"), loadProperties());
+				conn.setAutoCommit(false);
 			} catch (SQLException e) {
 				throw new DbException(e.getMessage());
 			}

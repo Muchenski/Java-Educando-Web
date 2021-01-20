@@ -26,7 +26,7 @@ public class Program {
 
 			st = conn.createStatement();
 
-			int rows1 = st.executeUpdate("UPDATE seller SET BaseSalary = 1111111111 WHERE DepartmentId = 1");
+			int rows1 = st.executeUpdate("UPDATE seller SET BaseSalary = 9090 WHERE DepartmentId = 1");
 
 			// Forçando uma exceção.
 			int x = 1;
@@ -34,7 +34,7 @@ public class Program {
 				throw new SQLException("Fake error");
 			}
 
-			int rows2 = st.executeUpdate("UPDATE seller SET BaseSalary = 9999999999 WHERE DepartmentId = 2");
+			int rows2 = st.executeUpdate("UPDATE seller SET BaseSalary = 1313 WHERE DepartmentId = 2");
 
 			// Somente se o programa chegar a executar esta linha abaixo, que as alterações
 			// realizadas ocorrerão no banco.
