@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.muchenski.course.domain.Post;
 import com.muchenski.course.domain.User;
 import com.muchenski.course.dto.UserDto;
 import com.muchenski.course.repositories.UserRepository;
@@ -48,5 +49,10 @@ public class UserService {
 		user.setEmail(dto.getEmail());
 
 		return new UserDto(repository.save(user));
+	}
+
+	public List<Post> findPostByUserId(String id) {
+		findById(id);
+		return repository.findById(id).get().getPosts();
 	}
 }

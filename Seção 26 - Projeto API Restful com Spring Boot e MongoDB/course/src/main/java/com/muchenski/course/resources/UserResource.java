@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.muchenski.course.domain.Post;
 import com.muchenski.course.dto.UserDto;
 import com.muchenski.course.services.UserService;
 
@@ -51,5 +52,10 @@ public class UserResource {
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<UserDto> update(@PathVariable String id, @RequestBody UserDto dto) {
 		return ResponseEntity.ok().body(service.update(id, dto));
+	}
+
+	@GetMapping(value = "/{id}/posts")
+	public ResponseEntity<List<Post>> findPostByUserId(@PathVariable String id) {
+		return ResponseEntity.ok().body(service.findPostByUserId(id));
 	}
 }
