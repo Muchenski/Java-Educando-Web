@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.muchenski.course.domain.User;
+import com.muchenski.course.dto.UserDto;
 import com.muchenski.course.services.UserService;
 
 @RestController
@@ -17,9 +17,9 @@ public class UserResource {
 
 	@Autowired
 	private UserService service;
-	
+
 	@GetMapping
-	public ResponseEntity<List<User>> findAll() {
+	public ResponseEntity<List<UserDto>> findAll() {
 		return ResponseEntity.ok().body(service.findAll());
 	}
 
