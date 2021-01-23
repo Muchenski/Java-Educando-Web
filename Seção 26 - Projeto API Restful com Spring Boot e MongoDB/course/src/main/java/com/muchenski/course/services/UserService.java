@@ -27,6 +27,11 @@ public class UserService {
 		return repository.findAll().stream().map(user -> new UserDto(user)).collect(Collectors.toList());
 	}
 
+	public void deleteById(String id) {
+		findById(id);
+		repository.deleteById(id);
+	}
+
 	public UserDto insert(UserDto dto) {
 		User user = new User(null, dto.getName(), dto.getEmail());
 		user = repository.insert(user);
