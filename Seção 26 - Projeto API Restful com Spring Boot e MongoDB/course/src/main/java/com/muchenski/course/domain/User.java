@@ -1,8 +1,11 @@
 package com.muchenski.course.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 // Para mapearmos esta classe como um documento, no mongoDB.
@@ -15,6 +18,11 @@ public class User implements Serializable {
 	private String id;
 	private String name;
 	private String email;
+
+	// Referenciando outra coleção do MongoDB.
+	// "lazy" é para não carregar os Post's ao carregar o User.
+	@DBRef(lazy = true)
+	private List<Post> posts = new ArrayList<Post>();
 
 	public User() {
 	}
@@ -47,6 +55,10 @@ public class User implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<Post> getPosts() {
+		return posts;
 	}
 
 	@Override
