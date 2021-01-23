@@ -38,4 +38,15 @@ public class UserService {
 		// Agora nosso DTO possui id.
 		return new UserDto(user);
 	}
+
+	public UserDto update(String id, UserDto dto) {
+		Optional<User> bdUser = repository.findById(id);
+
+		User user = bdUser.orElseThrow(() -> new ObjectNotFoundException("Object not found -> id: " + id));
+
+		user.setName(dto.getName());
+		user.setEmail(dto.getEmail());
+
+		return new UserDto(repository.save(user));
+	}
 }
