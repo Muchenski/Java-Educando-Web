@@ -26,4 +26,11 @@ public class UserService {
 	public List<UserDto> findAll() {
 		return repository.findAll().stream().map(user -> new UserDto(user)).collect(Collectors.toList());
 	}
+
+	public UserDto insert(UserDto dto) {
+		User user = new User(null, dto.getName(), dto.getEmail());
+		user = repository.insert(user);
+		// Agora nosso DTO possui id.
+		return new UserDto(user);
+	}
 }
