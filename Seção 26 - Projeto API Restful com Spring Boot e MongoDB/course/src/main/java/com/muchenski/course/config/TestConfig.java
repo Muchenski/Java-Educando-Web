@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import com.muchenski.course.domain.Post;
 import com.muchenski.course.domain.User;
 import com.muchenski.course.dto.AuthorDto;
+import com.muchenski.course.dto.CommentDto;
 import com.muchenski.course.repositories.PostRepository;
 import com.muchenski.course.repositories.UserRepository;
 
@@ -44,7 +45,13 @@ public class TestConfig implements CommandLineRunner {
 
 		Post p1 = new Post(null, sdf.parse("2018-03-21"), "Partiu viagem", "Vou viajar para São Paulo. Abraços!",
 				new AuthorDto(maria));
+
+		p1.getComments().add(new CommentDto("Boa viagem mano!", sdf.parse("2018-03-21"), new AuthorDto(alex)));
+		p1.getComments().add(new CommentDto("Aproveite!", sdf.parse("2018-03-22"), new AuthorDto(bob)));
+
 		Post p2 = new Post(null, sdf.parse("2018-03-23"), "Bom dia", "Acordei feliz hoje!", new AuthorDto(maria));
+
+		p2.getComments().add(new CommentDto("Tenha um ótimo dia!", sdf.parse("2018-03-23"), new AuthorDto(alex)));
 
 		postRepository.saveAll(Arrays.asList(p1, p2));
 
