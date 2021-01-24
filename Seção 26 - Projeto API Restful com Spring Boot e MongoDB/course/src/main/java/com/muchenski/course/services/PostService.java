@@ -24,4 +24,8 @@ public class PostService {
 	public List<Post> findAll() {
 		return repository.findAll();
 	}
+
+	public List<Post> findByTitleContaining(String keyword) {
+		return repository.findByTitleContainingIgnoreCase(keyword);
+	}
 }

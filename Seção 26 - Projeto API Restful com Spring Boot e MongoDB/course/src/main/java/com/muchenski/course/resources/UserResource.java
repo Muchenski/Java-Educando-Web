@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.muchenski.course.domain.Post;
 import com.muchenski.course.dto.UserDto;
+import com.muchenski.course.resources.utils.URL;
 import com.muchenski.course.services.UserService;
 
 @RestController
@@ -57,5 +59,11 @@ public class UserResource {
 	@GetMapping(value = "/{id}/posts")
 	public ResponseEntity<List<Post>> findPostByUserId(@PathVariable String id) {
 		return ResponseEntity.ok().body(service.findPostByUserId(id));
+	}
+
+	@GetMapping(value = "/namesearch")
+	public ResponseEntity<List<UserDto>> findByNameLike(@RequestParam(value = "name", defaultValue = "") String name) {
+		name = URL.decode(name);
+		return ResponseEntity.ok().body(service.findByNameLike(name));
 	}
 }

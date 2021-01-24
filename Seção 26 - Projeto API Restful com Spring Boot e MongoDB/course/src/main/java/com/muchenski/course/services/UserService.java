@@ -55,4 +55,8 @@ public class UserService {
 		findById(id);
 		return repository.findById(id).get().getPosts();
 	}
+
+	public List<UserDto> findByNameLike(String name) {
+		return repository.findByNameLike(name).stream().map(user -> new UserDto(user)).collect(Collectors.toList());
+	}
 }
