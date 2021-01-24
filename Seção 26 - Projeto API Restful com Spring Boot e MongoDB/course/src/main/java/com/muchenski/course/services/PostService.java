@@ -1,5 +1,7 @@
 package com.muchenski.course.services;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,5 +29,13 @@ public class PostService {
 
 	public List<Post> findByTitleContaining(String keyword) {
 		return repository.findByTitleContainingIgnoreCase(keyword);
+	}
+
+	public List<Post> fullSearch(String keyword, Date minDate, Date maxDate) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(maxDate);
+		calendar.add(Calendar.HOUR_OF_DAY, 24);
+		maxDate = calendar.getTime();
+		return repository.fullSearch(keyword, minDate, maxDate);
 	}
 }
