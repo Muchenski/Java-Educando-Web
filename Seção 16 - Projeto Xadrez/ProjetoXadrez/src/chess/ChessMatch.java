@@ -2,6 +2,7 @@ package chess;
 
 import boardgame.Board;
 import boardgame.Position;
+import chess.enums.Color;
 import chess.pieces.King;
 import chess.pieces.Rook;
 
