@@ -58,6 +58,7 @@ public class Board {
 	}
 
 	public Piece getPiece(int row, int column) {
+		
 		if (!positionExists(row, column)) {
 			throw new BoardException("Posição não existe!");
 		}

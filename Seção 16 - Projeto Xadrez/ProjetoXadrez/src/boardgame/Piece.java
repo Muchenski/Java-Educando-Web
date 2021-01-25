@@ -38,10 +38,10 @@ public abstract class Piece {
 	}
 
 	public boolean isThereAnyPossibleMove() {
-		boolean[][] possibleMoves = possibleMoves();
+		boolean[][] mat = possibleMoves();
 		for (int i = 0; i < board.getRows(); i++) {
 			for (int j = 0; j < board.getColumns(); j++) {
-				if (possibleMoves[i][j]) {
+				if (mat[i][j]) {
 					return true;
 				}
 			}
