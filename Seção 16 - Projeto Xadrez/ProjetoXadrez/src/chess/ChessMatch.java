@@ -36,6 +36,9 @@ public class ChessMatch {
 		if (!board.thereIsAPiece(position)) {
 			throw new ChessException("Não existe peça na posição de origem!");
 		}
+		if (!board.getPiece(position).isThereAnyPossibleMove()) {
+			throw new ChessException("Não existem movimentos possíveis para esta peça!");
+		}
 	}
 
 	// Nosso jogo não tem que conhecer as peças genéricas,
