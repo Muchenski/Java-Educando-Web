@@ -1,8 +1,12 @@
 package application;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 import boardgame.Board;
 import boardgame.Piece;
 import chess.ChessPiece;
+import chess.ChessPosition;
 import chess.enums.Color;
 
 // Classe responsável para realizar as modificações
@@ -27,6 +31,18 @@ public class UI {
 	public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
 	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+
+	public static ChessPosition readChessPosition(Scanner sc) {
+		try {
+			String chessPositionData = sc.nextLine();
+			char column = chessPositionData.charAt(0);
+			int row = Integer.parseInt(chessPositionData.substring(1));
+			return new ChessPosition(column, row);
+		} catch (RuntimeException e) {
+			throw new InputMismatchException(
+					"Erro lendo a posição de Xadrez! Linha e/ou coluna inválidos. Tente os valores de a1 até h8!");
+		}
+	}
 
 	public static void printBoard(Piece[][] pieces, Board board) {
 

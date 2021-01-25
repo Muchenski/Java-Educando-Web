@@ -1,7 +1,10 @@
 package chess;
 
 import boardgame.Board;
+import boardgame.Piece;
+import boardgame.Position;
 import chess.enums.Color;
+import chess.exceptions.ChessException;
 import chess.pieces.King;
 import chess.pieces.Rook;
 
@@ -12,6 +15,27 @@ public class ChessMatch {
 	public ChessMatch() {
 		board = new Board(8, 8);
 		initialSetup();
+	}
+
+	public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
+		Position source = sourcePosition.toMatrixPosition();
+		Position target = targetPosition.toMatrixPosition();
+		validateSourcePosition(source);
+		ChessPiece capturedPiece = makeMove(source, target);
+		return capturedPiece;
+	}
+
+	private ChessPiece makeMove(Position source, Position target) {
+		Piece piece = board.removePiece(source);
+		Piece capturedPiece = board.removePiece(target);
+		board.placePiece(piece, target);
+		return (ChessPiece) capturedPiece;
+	}
+
+	private void validateSourcePosition(Position position) {
+		if (!board.thereIsAPiece(position)) {
+			throw new ChessException("Não existe peça na posição de origem!");
+		}
 	}
 
 	// Nosso jogo não tem que conhecer as peças genéricas,
