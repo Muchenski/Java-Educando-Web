@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import boardgame.Board;
 import boardgame.Piece;
+import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.ChessPosition;
 import chess.enums.Color;
@@ -102,6 +103,13 @@ public class UI {
 			}
 		}
 		System.out.print(" ");
+	}
+
+	public static void printMatch(ChessMatch match) {
+		printBoard(match.getPieces(), match.getBoard());
+		System.out.println();
+		System.out.println("Turno: " + match.getTurn());
+		System.out.println("Aguardando jogador atual: " + match.getCurrentPlayer());
 	}
 
 	public static void clearScreen() {
