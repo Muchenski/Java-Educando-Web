@@ -19,7 +19,7 @@ public abstract class Piece {
 		this.board = board;
 	}
 
-	public Position getPosition() {
+	protected Position getPosition() {
 		return position;
 	}
 
