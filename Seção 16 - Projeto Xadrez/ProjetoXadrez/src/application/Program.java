@@ -38,6 +38,15 @@ public class Program {
 				if (capturedPiece != null) {
 					capturedPieces.add(capturedPiece);
 				}
+				if (chessMatch.getPromoted() != null) {
+					String type = null;
+					do {
+						System.out.print("Digite a peça para promoção [Q/R/B/N]: ");
+						type = sc.nextLine().toUpperCase();
+					} while (!type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q"));
+
+					chessMatch.replacePromotedPiece(type);
+				}
 			} catch (ChessException e) {
 				System.out.println(e.getMessage());
 				sc.nextLine();

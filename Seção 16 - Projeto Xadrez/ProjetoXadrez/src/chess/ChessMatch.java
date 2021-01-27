@@ -24,6 +24,7 @@ public class ChessMatch {
 	private boolean check;
 	private boolean checkMate;
 	private ChessPiece enPassantVulterable;
+	private ChessPiece promoted;
 
 	private List<ChessPiece> piecesOnTheBoard = new ArrayList<ChessPiece>();
 	private List<ChessPiece> capturedPieces = new ArrayList<ChessPiece>();
@@ -49,6 +50,17 @@ public class ChessMatch {
 			UndoMove(source, target, capturedPiece);
 			throw new ChessException("Você não pode se colocar em Xeque!");
 		}
+
+		// Promotion
+		promoted = null;
+		if (movedPiece instanceof Pawn) {
+			if ((movedPiece.getColor() == Color.WHITE && target.getRow() == 0)
+					|| (movedPiece.getColor() == Color.BLACK && target.getRow() == 7)) {
+				promoted = (ChessPiece) board.getPiece(target);
+				promoted = replacePromotedPiece("Q");
+			}
+		}
+
 		// Verificando se o jogador atual colocou seu adversário em Xeque com a jogada.
 		if (testCheck(opponentColor(currentPlayer))) {
 			check = true;
@@ -70,6 +82,34 @@ public class ChessMatch {
 		}
 
 		return capturedPiece;
+	}
+
+	public ChessPiece replacePromotedPiece(String type) {
+		if (promoted == null) {
+			throw new IllegalStateException("Não há peça para ser promovida!");
+		}
+		if (!type.equals("B") && !type.equals("N") && !type.equals("R") && !type.equals("Q")) {
+			return promoted;
+		}
+		Position pos = promoted.getChessPosition().toMatrixPosition();
+		Piece p = board.removePiece(pos);
+		piecesOnTheBoard.remove(p);
+
+		ChessPiece newPiece = newPiece(type, promoted.getColor());
+		board.placePiece(newPiece, pos);
+		piecesOnTheBoard.add(newPiece);
+
+		return newPiece;
+	}
+
+	private ChessPiece newPiece(String type, Color color) {
+		if (type.equals("B"))
+			return new Bishop(board, color);
+		else if (type.equals("Q"))
+			return new Queen(board, color);
+		else if (type.equals("N"))
+			return new Knight(board, color);
+		return new Rook(board, color);
 	}
 
 	public boolean[][] possibleMoves(ChessPosition sourcePosition) {
@@ -319,6 +359,10 @@ public class ChessMatch {
 
 	public ChessPiece getEnPassantVulterable() {
 		return enPassantVulterable;
+	}
+
+	public ChessPiece getPromoted() {
+		return promoted;
 	}
 
 }

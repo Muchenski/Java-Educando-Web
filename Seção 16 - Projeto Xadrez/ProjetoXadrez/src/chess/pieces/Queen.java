@@ -105,6 +105,6 @@ public class Queen extends ChessPiece {
 
 	@Override
 	public String toString() {
-		return "R";
+		return "Q";
 	}
 }
