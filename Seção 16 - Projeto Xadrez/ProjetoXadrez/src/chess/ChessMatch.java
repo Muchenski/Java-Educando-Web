@@ -11,6 +11,7 @@ import chess.enums.Color;
 import chess.exceptions.ChessException;
 import chess.pieces.Bishop;
 import chess.pieces.King;
+import chess.pieces.Knight;
 import chess.pieces.Pawn;
 import chess.pieces.Rook;
 
@@ -131,6 +132,8 @@ public class ChessMatch {
 		placePiece(new ChessPosition('h', 1), new Rook(board, Color.WHITE));
 		placePiece(new ChessPosition('c', 1), new Bishop(board, Color.WHITE));
 		placePiece(new ChessPosition('f', 1), new Bishop(board, Color.WHITE));
+		placePiece(new ChessPosition('b', 1), new Knight(board, Color.WHITE));
+		placePiece(new ChessPosition('g', 1), new Knight(board, Color.WHITE));
 		placePiece(new ChessPosition('a', 2), new Pawn(board, Color.WHITE));
 		placePiece(new ChessPosition('b', 2), new Pawn(board, Color.WHITE));
 		placePiece(new ChessPosition('c', 2), new Pawn(board, Color.WHITE));
@@ -140,6 +143,8 @@ public class ChessMatch {
 		placePiece(new ChessPosition('g', 2), new Pawn(board, Color.WHITE));
 		placePiece(new ChessPosition('h', 2), new Pawn(board, Color.WHITE));
 
+		placePiece(new ChessPosition('b', 8), new Knight(board, Color.BLACK));
+		placePiece(new ChessPosition('g', 8), new Knight(board, Color.BLACK));
 		placePiece(new ChessPosition('a', 8), new Rook(board, Color.BLACK));
 		placePiece(new ChessPosition('e', 8), new King(board, Color.BLACK));
 		placePiece(new ChessPosition('h', 8), new Rook(board, Color.BLACK));
